@@ -1,0 +1,13 @@
+#card {
+    margin: 100px;
+    background-color: azure;
+}
+
+#searchBar {
+    width: 100%;
+}
+
+#scroll {
+    height: 250px;
+    overflow-y: scroll;
+}
