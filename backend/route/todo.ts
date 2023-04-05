@@ -7,11 +7,10 @@ import { PassThrough } from "stream";
 
 var expressFunction = require('express'); //object to call
 const router = expressFunction.Router();
-const bp = require('body-parser')
+// const bp = require('body-parser')
 
-router.use(bp.json())
-router.use(bp.urlencoded({ extended: true }))
-
+// router.use(bp.json())
+// router.use(bp.urlencoded({ extended: true }))
 
 router.route("/todo")
     .get(async (_req: Request, res: Response) => {
