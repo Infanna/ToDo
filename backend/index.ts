@@ -26,7 +26,7 @@ expressApp.use((req: any,res: any,next: any)=>{
         console.log('Connect to MongoDB..');
         next();
     })
-    .catch((err:any) =>{
+    .catch((err:string) =>{
         console.log('Cannot connect to MongoDB ' + err)
         res.status(501).send('Cannot connect to MongoDB ' + err)
     });
