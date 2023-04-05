@@ -1,10 +1,10 @@
 import express from "express"
-import { route } from "./route/todo";
+import { router } from "./route/todo";
 import mongoose from "mongoose";
 
 const app = express();
 
-app.use("/", route)
+app.use("/", router)
 
 async function mongoConnect() {
     await mongoose.connect("mongodb://test:1234@0.0.0.0:27017/testdb")
