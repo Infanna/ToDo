@@ -27,13 +27,14 @@ router.route('/todo')
         // const data = new Todo({title: 'work 1', status: 'Done'});
         const payload = {
             title: req.body.title,
-            status: req.body.status
+            status: req.body.status,
+            datetime: req.body.datetime
         }
         console.log("payload", payload)
         const payloadTodo = new Todo(payload)
         try {
             await payloadTodo.save()
-            res.status(200).send("Add todo successfully");
+            res.status(200).send({message: "Add todo successfully", res: payloadTodo});
         } catch (error) {
             res.status(500).send(error)
         }
