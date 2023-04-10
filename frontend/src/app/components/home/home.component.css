@@ -8,6 +8,13 @@
 }
 
 #scroll {
-    height: 250px;
+    height: 380px;
     overflow-y: scroll;
+}
+
+p {
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }

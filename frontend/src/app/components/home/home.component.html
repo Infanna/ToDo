@@ -1,55 +1,75 @@
 <div class="container">
-    <div class="row mt-3">
-        <div class="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-10">
-            <div class="card">
-                <div class="card-body">
-                    <div class="row justify-content-center align-items-center">
-                        <div class="col-9 col-sm-9 col-md-9 col-lg-9 col-xl-9 text-center">
-                            <h2>TodoList</h2>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="row justify-content-center align-items-center">
-                        <div class="col-9 col-sm-9 col-md-9 col-lg-9 col-xl-9">
-                            <input id="searchBar" [(ngModel)]="searchText" type="text" placeholder="Search ...">
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="card mt-3">
-                <div id="scroll" class="card-body">
-                    <div class="row justify-content-center align-items-center py-2" *ngFor="let item of items | filter: searchText let j = index;">
-                        <div class="col-9 col-sm-9 col-md-9 col-lg-9 col-xl-9 text-left">
-                            {{ item.title }}
-                        </div>
-                        <div [ngSwitch]="item.status" class="col-1 col-sm-1 col-md-1 col-lg-1 col-xl-1 text-right">
-                            <i *ngSwitchCase="true" class="fa fa-check"></i>
-                            <i *ngSwitchCase="false" class="fa fa-times"></i>
-                        </div>
-                        <div class="col-1 col-sm-1 col-md-1 col-lg-1 col-xl-1 text-center">
-                            <input type="checkbox" formControlName="status">
-                        </div>
-                    </div>
-                </div>
-                <hr>
-                <div class="card-body">
-                    <form [formGroup]="todo">
-                        <div class="row justify-content-center align-items-center">
-                            <div class="col-9 col-sm-9 col-md-9 col-lg-9 col-xl-9">
-                                <input id="searchBar" formControlName="title" type="text" placeholder="Todo Task">
+    <div class="form" [formGroup]="todo">
+        <div class="form-body">
+            <div class="row mt-3">
+                <div class="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-10">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row justify-content-center align-items-center">
+                                <div class="col-9 col-sm-9 col-md-9 col-lg-9 col-xl-9 text-center">
+                                    <h2>TodoList</h2>
+                                </div>
                             </div>
-                            <div class="col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
-                                <button class="btn btn-success" (click)="addTodo()">Enter</button>
+                            <hr>
+                            <div class="row justify-content-center align-items-center">
+                                <div class="col-9 col-sm-9 col-md-9 col-lg-9 col-xl-9">
+                                    <input id="searchBar" [(ngModel)]="searchText" [ngModelOptions]="{standalone: true}"
+                                        type="text" placeholder="Search ...">
+                                </div>
                             </div>
                         </div>
-                    </form>
+                    </div>
+                    <div class="card mt-3">
+                        <div class="card-body">
+                            <div id="scroll"> 
+                            <div class="row justify-content-center align-items-center py-2"
+                                *ngFor="let item of items | filter: searchText let i = index;">
+                                <div class="col-1 col-sm-1 col-md-1 col-lg-1 col-xl-1 text-left">
+                                    <button class="btn btn-light mt-1" (click)="copyText(item.title)">
+                                        <i class="fa fa-clipboard" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                                <div class="col-8 col-sm-8 col-md-8 col-lg-8 col-xl-8 text-left">
+                                    <i class="fa fa-clock-o"></i> {{ formatTime(item.datetime)}}
+                                    <br>
+                                    <p>{{ item.title }}</p>
+                                </div>
+                                <div class="col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+                                    <button class="btn btn-info mr-1 mt-1" [ngSwitch]="item.status" style="width: 42px;"
+                                        (click)="changeStatus(i, item)">
+                                        <i *ngSwitchCase="'true'" class="fa fa-check"></i>
+                                        <i *ngSwitchCase="'false'" class="fa fa-times"></i>
+                                    </button>
+                                    <button class="btn btn-secondary mr-1 mt-1" style="width: 42px;">
+                                        <i class="fa fa-window-maximize" aria-hidden="true"></i>
+                                    </button>
+                                    <button class="btn btn-danger mt-1" style="width: 42px;" (click)="deleteCheck(i)">
+                                        <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            </div>
+                            <hr>
+                            <div class="card-body">
+                                <div class="row justify-content-center align-items-center">
+                                    <div class="col-9 col-sm-9 col-md-9 col-lg-9 col-xl-9">
+                                        <input id="searchBar" formControlName="title" type="text"
+                                            placeholder="Todo Task">
+                                    </div>
+                                    <div class="col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+                                        <button class="btn btn-success" (click)="addTodo()">Enter</button>
+                                    </div>
+                                </div>
+                                <div class="row justify-content-left align-items-left">
+                                    <div class="col-9 col-sm-9 col-md-9 col-lg-9 col-xl-9 mt-1">
+                                        <input id="searchBar" formControlName="datetime" type="datetime-local">
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <div>{{ todo.value|json }}</div> -->
+                        </div>
+                    </div>
                 </div>
-                <!-- <div>{{ this.title.value|json }}</div> -->
-                <!-- <div *ngFor="let item of items;">
-                     {{ item.title }}
-                </div> -->
-                <div>{{ todo.value|json }}</div>
             </div>
         </div>
     </div>
-</div>
