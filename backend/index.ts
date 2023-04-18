@@ -34,6 +34,8 @@ expressApp.use((req: any,res: any,next: any)=>{
 
 expressApp.use("/", router)
 
-expressApp.listen(3000, function(){
-    console.log("Listening on Port 3000");
+var port = 3001
+
+expressApp.listen(port, function(){
+    console.log("Listening on Port", port);
 });

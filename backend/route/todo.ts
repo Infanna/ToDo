@@ -1,16 +1,33 @@
 import { Router, Request, Response } from "express";
 import { Todo } from "../model/todo";
-import { resolve } from "path";
-import { rejects } from "assert";
-import { Console } from "console";
-import { PassThrough } from "stream";
+import { KafkaClient, Producer, ProduceRequest } from "kafka-node";
 
 var expressFunction = require('express'); //object to call
 const router = expressFunction.Router();
-// const bp = require('body-parser')
 
-// router.use(bp.json())
-// router.use(bp.urlencoded({ extended: true }))
+//kafka
+const kafkaClient = new KafkaClient({ kafkaHost: 'localhost:9092' });
+const producer = new Producer(kafkaClient);
+const topicName = 'test_topic'
+
+
+function SendDataToKafka(message: object) {
+    const jsonString = JSON.stringify(message);
+    const kafkaMessage: ProduceRequest[] = [{
+        topic: topicName,
+        messages: [jsonString]
+    }];
+
+    producer.send(kafkaMessage, (error, result) => {
+        if (error) {
+            console.error(error);
+            return(error.message);
+        } else {
+            console.log('Message sent to Kafka:', result);
+            return(result);
+        }
+    });
+}
 
 router.route("/todo")
     .get(async (_req: Request, res: Response) => {
@@ -24,7 +41,6 @@ router.route("/todo")
 
 router.route('/todo')
     .post(async (req: Request, res: Response) => {
-        // const data = new Todo({title: 'work 1', status: 'Done'});
         const payload = {
             title: req.body.title,
             status: req.body.status,
@@ -32,8 +48,12 @@ router.route('/todo')
         }
         console.log("payload", payload)
         const payloadTodo = new Todo(payload)
+
+        const session = router.startSession();
+
         try {
-            await payloadTodo.save()
+            await payloadTodo.save();
+            await SendDataToKafka(payloadTodo);
             res.status(200).send({message: "Add todo successfully", res: payloadTodo});
         } catch (error) {
             res.status(500).send(error)
