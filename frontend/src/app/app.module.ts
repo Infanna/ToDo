@@ -9,6 +9,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { HeadersComponent } from './components/headers/headers.component';
 import { FooterComponent } from '../../../Submodules/template/src/app/component/footer/footer.component'
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -22,7 +23,7 @@ import { FooterComponent } from '../../../Submodules/template/src/app/component/
     AppRoutingModule,
     ReactiveFormsModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
