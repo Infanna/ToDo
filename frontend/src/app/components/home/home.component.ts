@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { Int32 } from 'mongodb';
 import { TodoService } from 'src/app/service/todo.service';
 import { Clipboard } from '@angular/cdk/clipboard';
 import Swal from 'sweetalert2';
